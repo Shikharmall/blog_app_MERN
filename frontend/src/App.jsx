@@ -3,8 +3,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 import "./css/style.css";
 
-import "./charts/ChartjsConfig";
-
 // Import pages
 import NotFound from "./components/NotFound";
 import Blog from "./pages/Blog";
