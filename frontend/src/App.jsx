@@ -1,0 +1,33 @@
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+
+import "./css/style.css";
+
+import "./charts/ChartjsConfig";
+
+// Import pages
+import NotFound from "./components/NotFound";
+import Blog from "./pages/Blog";
+import BlogPage from "./pages/BlogPage";
+
+function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    document.querySelector("html").style.scrollBehavior = "auto";
+    window.scroll({ top: 0 });
+    document.querySelector("html").style.scrollBehavior = "";
+  }, [location.pathname]); // triggered on route change
+
+  return (
+    <>
+      <Routes>
+        <Route exact path="/blog" element={<Blog />} />
+        <Route exact path="/blog/page/:id" element={<BlogPage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+}
+
+export default App;
