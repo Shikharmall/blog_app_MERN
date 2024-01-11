@@ -20,7 +20,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/blog" element={<Blog />} />
+        <Route exact path="/" element={<Blog />} />
         <Route exact path="/blog/page/:id" element={<BlogPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
