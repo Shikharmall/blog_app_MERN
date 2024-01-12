@@ -1,28 +1,56 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
-import { getBlogs } from "../Api/BlogAPI";
+import { getAllBlogs, getBlogs, searchBlog } from "../Api/BlogAPI";
+import Header from "../components/Header";
+import axios from "axios";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(9);
+  //const [currentPage, setCurrentPage] = useState(1);
+  //const [postsPerPage, setPostsPerPage] = useState(9);
 
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  //const indexOfLastPost = currentPage * postsPerPage;
+  //const indexOfFirstPost = indexOfLastPost - postsPerPage;
   //const currentPosts = mergedData.slice(indexOfFirstPost,indexOfLastPost);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(6);
+  const [totalBlogs, setTotalBlogs] = useState(0);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [filterdata, setFilterdata] = useState("");
 
-  const filterhoadata = (e) => {
-    setSearch(e.target.value);
+  useEffect(() => {
+    const fetchPosts11 = async () => {
+      try {
+        getBlogs(page, limit, sortBy, sortOrder, filterdata).then((res) => {
+          if (res.status === 200) {
+            console.log(res);
+            setPosts(res?.data?.data);
+          } else {
+            console.log(res);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts11();
+  }, [page, sortBy, sortOrder, filterdata]);
+
+  console.log(posts);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
   };
 
-  const getPostsFunc = () => {
+  const getAllBlogsFunc = () => {
     try {
-      getBlogs().then((res) => {
+      getAllBlogs().then((res) => {
         if (res.status === 200) {
-          setPosts(res?.data);
+          setTotalBlogs(res?.data?.data?.length);
           //setData(res.data);
           //setLoader(false);
         } else {
@@ -32,42 +60,14 @@ const Blog = () => {
     } catch (error) {}
   };
 
-  const applyFilters = (value) => {
-    setEndYearFilter(value);
-
-    let updatedFilteredItems = [...data1];
-
-    if (value !== "") {
-      updatedFilteredItems = updatedFilteredItems.filter(
-        (item) => String(item.end_year) === value
-      );
-    }
-
-    if (selectedIndustry !== "") {
-      updatedFilteredItems = updatedFilteredItems.filter(
-        (item) => item.industry === selectedIndustry
-      );
-    }
-
-    setData(updatedFilteredItems);
-  };
-
-  const filteredPostsData = posts
-    .filter((item) => {
-      return (
-        search.toLowerCase() === "" ||
-        item.title.toLowerCase().includes(search.toLowerCase()) ||
-        item.body.toLowerCase().includes(search.toLowerCase())
-      );
-    })
-    .slice(indexOfFirstPost, indexOfLastPost);
-
   useEffect(() => {
-    getPostsFunc();
+    getAllBlogsFunc();
   }, []);
 
   return (
     <>
+      <Header />
+
       <div className="bg-white pb-5 pt-5 dark:bg-dark lg:pb-5">
         <div className="mx-4 flex flex-wrap">
           <div className="w-full px-4">
@@ -86,11 +86,11 @@ const Blog = () => {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
-          <div className="col-span-3 md:col-span-1">
+        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-4">
+          <div className="col-span-1 md:col-span-1">
             <div className="relative p-2">
               <div>
-                <label className="sr-only">End Year:</label>
+                <label className="sr-only">Select Category:</label>
                 <select
                   //value={endYearFilter}
                   //onChange={(e) => applyFilters(e.target.value)}
@@ -108,7 +108,25 @@ const Blog = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-3 md:col-span-2">
+          <div className="col-span-1 md:col-span-1">
+            <div className="relative p-2">
+              <div>
+                <label className="sr-only">Select Category:</label>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="block p-3 pr-8  text-sm text-gray-500 border border-gray-300 placeholder-gray-400 rounded-lg w-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 box-border"
+                >
+                  <option value="" disabled>
+                    Sort
+                  </option>
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="col-span-2 md:col-span-2">
             <div className="relative p-2 box-border">
               <label htmlFor="table-search" className="sr-only">
                 Search
@@ -135,17 +153,17 @@ const Blog = () => {
                 id="table-search-users"
                 className="block p-3 pl-10 text-sm text-gray-500 border border-gray-300 placeholder-gray-400 rounded-lg w-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 box-border"
                 placeholder="Search"
-                value={search}
-                onChange={filterhoadata}
+                value={filterdata}
+                onChange={(e) => setFilterdata(e.target.value)}
               />
             </div>
           </div>
         </div>
 
         <div class="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
-          {filteredPostsData && filteredPostsData.length > 0 ? (
+          {posts && posts.length > 0 ? (
             <>
-              {filteredPostsData.map((item, index) => (
+              {posts.map((item, index) => (
                 <article
                   class="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
                   key={index}
@@ -156,13 +174,13 @@ const Blog = () => {
             </>
           ) : null}
         </div>
-        {filteredPostsData && filteredPostsData.length > 0 ? null : (
+        {posts && posts.length > 0 ? null : (
           <div className="bg-white flex justify-center w-full">
             <h1 className="p-3">No Blog Found..</h1>
           </div>
         )}
 
-        <div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
+        {/*<div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
           {posts.length > 0 ? (
             <a className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
               {currentPage} of {Math.ceil(posts.length / postsPerPage)}
@@ -242,6 +260,28 @@ const Blog = () => {
               </li>
             </ul>
           </nav>
+        </div>*/}
+
+        <div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
+          <button
+            className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page <= 1}
+          >
+            Previous
+          </button>
+
+          <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
+            {page}
+          </a>
+
+          <button
+            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"
+            disabled={page >= Math.ceil(totalBlogs / limit)}
+            onClick={() => handlePageChange(page + 1)}
+          >
+            Next
+          </button>
         </div>
       </div>
     </>

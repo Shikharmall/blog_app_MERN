@@ -14,17 +14,25 @@ blog_route.use(bodyParser.urlencoded({extended:true}));
 
 /* ---------add blog route---------- */
 
-blog_route.post('/addblog',postController.addBlog);
+blog_route.post('/addBlog',postController.addBlog);
+
+/* ---------get all blogs route---------- */
+
+blog_route.get('/getAllBlogs',postController.getAllBlogs);
 
 
-/* ---------get blogs route---------- */
+/* ---------get blogs by  filter, sort, and pagination route---------- */
 
-blog_route.patch('/getBlogs',postController.updateView);
+blog_route.get('/getBlogs',postController.getBlogs);
 
 
 /* ---------upadte blog view route---------- */
 
 blog_route.patch('/updateView',postController.updateView);
+
+/* ---------search blogs by title & description route---------- */
+
+blog_route.get('/searchBlog',postController.searchBlog);
 
 
 module.exports = blog_route;

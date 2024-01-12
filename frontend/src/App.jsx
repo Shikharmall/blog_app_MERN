@@ -7,6 +7,7 @@ import "./css/style.css";
 import NotFound from "./components/NotFound";
 import Blog from "./pages/Blog";
 import BlogPage from "./pages/BlogPage";
+import AddPost from "./pages/AddPost";
 
 function App() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Blog />} />
+        <Route exact path="/addPost" element={<AddPost />} />
         <Route exact path="/blog/page/:id" element={<BlogPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

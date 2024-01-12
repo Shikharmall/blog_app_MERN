@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const tagSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      //unique: true
-    },
     blog_id: {
       type: String,
+      required: true,
+      unique: true, // Add this line
+    },
+    tags: {
+      type: [String],
       required: true,
     },
   },
