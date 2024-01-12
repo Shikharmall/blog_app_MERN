@@ -23,9 +23,7 @@ const cors = require("cors");
 
 let allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:3000",
-  "https://analyticdashboard-ten.vercel.app",
-  "https://shikhar-react-portfolio.vercel.app",
+  "https://idea-usher-assignment.vercel.app",
 ];
 
 app.use(
@@ -35,8 +33,8 @@ app.use(
   })
 );
 
-const articlesRoute = require("./routes/newsArticleRoute");
+const blogRoute = require("./routes/blogRoute");
 
-app.use("/", articlesRoute);
+app.use("/", blogRoute);
 
 app.listen(port);
