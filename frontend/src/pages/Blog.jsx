@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
-import { getAllBlogs, getBlogs, searchBlog } from "../Api/BlogAPI";
+import { getAllBlogs, getBlogs } from "../Api/BlogAPI";
 import Header from "../components/Header";
 
 const Blog = () => {

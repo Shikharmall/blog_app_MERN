@@ -26,19 +26,19 @@ const addBlog = async (req, res) => {
     if (blogData) {
       /* ------adding array of tags-------- */
 
-      /*const tags = new Tag({
+      const tags = new Tag({
         blog_id: blogData._id,
         tags: req.body.tags,
       });
 
       const tagsData = await tags.save();
 
-      if (tagsData) {*/
-      return res.status(201).json({
-        status: "success",
-        data: blogData,
-      });
-      //}
+      if (tagsData) {
+        return res.status(201).json({
+          status: "success",
+          data: blogData,
+        });
+      }
     }
   } catch (error) {
     return res.status(500).json({ status: "failed", error: error.message });
@@ -147,11 +147,38 @@ const getSingleBlog = async (req, res) => {
   }
 };
 
+/*-----------get top three blogs------------*/
+
+const topThreeBlog = async (req, res) => {
+  try {
+    const topThreeViewedPosts = await Blog.find().sort({ view: -1 }).limit(3);
+
+    res.status(200).json({ status: "success", data: topThreeViewedPosts });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/*-----------get blog Tags------------*/
+
+const getTags = async (req, res) => {
+  try {
+    const { blog_id } = req.query;
+    const getBlogTags = await Tag.find({blog_id:blog_id});
+
+    res.status(200).json({ status: "success", data: getBlogTags });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   addBlog,
   updateView,
   getBlogs,
   searchBlog,
   getAllBlogs,
-  getSingleBlog
+  getSingleBlog,
+  topThreeBlog,
+  getTags
 };

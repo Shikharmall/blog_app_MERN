@@ -73,8 +73,6 @@ export default function AddPost() {
     });
   };
 
-  console.log(formData);
-
   async function submitHandler(e) {
     e.preventDefault();
 
