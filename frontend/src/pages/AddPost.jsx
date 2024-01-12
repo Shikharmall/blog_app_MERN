@@ -93,7 +93,7 @@ export default function AddPost() {
     setSubmitloader(true);
 
     addPost(formData).then((res) => {
-      if (res.status === 200) {
+      if (res.status === 201) {
         setSubmitloader(false);
         setPreviewURL(null);
         setImages(null);
@@ -138,7 +138,7 @@ export default function AddPost() {
                       required
                       onChange={onChangeHandler}
                       value={formData.title}
-                      autoFocus={true}
+                      //autoFocus={true}
                     />
                   </div>
 

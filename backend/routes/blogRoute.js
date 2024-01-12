@@ -34,6 +34,10 @@ blog_route.patch('/updateView',postController.updateView);
 
 blog_route.get('/searchBlog',postController.searchBlog);
 
+/* ---------get a blog data---------- */
+
+blog_route.get('/getSingleBlog',postController.getSingleBlog);
+
 
 module.exports = blog_route;
 

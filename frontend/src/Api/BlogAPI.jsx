@@ -23,6 +23,17 @@ export const getAllBlogs = async () => {
   }
 };
 
+export const getSingleBlog = async (blog_id) => {
+  try {
+    let result = await axios(`http://localhost:5174/getSingleBlog/?blog_id=${blog_id}`, {
+      method: "GET",
+    });
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getBlogs = async (
   page,
   limit,

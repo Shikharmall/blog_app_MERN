@@ -2,24 +2,19 @@ import React, { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import { getAllBlogs, getBlogs, searchBlog } from "../Api/BlogAPI";
 import Header from "../components/Header";
-import axios from "axios";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
-  //const [currentPage, setCurrentPage] = useState(1);
-  //const [postsPerPage, setPostsPerPage] = useState(9);
-
-  //const indexOfLastPost = currentPage * postsPerPage;
-  //const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  //const currentPosts = mergedData.slice(indexOfFirstPost,indexOfLastPost);
-
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(6);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterdata, setFilterdata] = useState("");
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   useEffect(() => {
     const fetchPosts11 = async () => {
@@ -41,10 +36,6 @@ const Blog = () => {
   }, [page, sortBy, sortOrder, filterdata]);
 
   console.log(posts);
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
 
   const getAllBlogsFunc = () => {
     try {
@@ -111,14 +102,14 @@ const Blog = () => {
           <div className="col-span-1 md:col-span-1">
             <div className="relative p-2">
               <div>
-                <label className="sr-only">Select Category:</label>
+                <label className="sr-only">Sort By Time:</label>
                 <select
                   value={sortOrder}
                   onChange={(e) => setSortOrder(e.target.value)}
                   className="block p-3 pr-8  text-sm text-gray-500 border border-gray-300 placeholder-gray-400 rounded-lg w-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 box-border"
                 >
                   <option value="" disabled>
-                    Sort
+                    Sort By Time
                   </option>
                   <option value="asc">Ascending</option>
                   <option value="desc">Descending</option>
@@ -270,10 +261,15 @@ const Blog = () => {
           >
             Previous
           </button>
-
-          <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
-            {page}
-          </a>
+          {totalBlogs !== 0 ? (
+            <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
+              {page}
+            </a>
+          ) : (
+            <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
+              0
+            </a>
+          )}
 
           <button
             className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"

@@ -133,10 +133,25 @@ const searchBlog = async (req, res) => {
   }
 };
 
+/*-----------get blogs by filter, sort, and pagination------------*/
+
+const getSingleBlog = async (req, res) => {
+  try {
+    const { blog_id } = req.query;
+
+    const blogData = await Blog.findById({ _id: blog_id });
+
+    res.status(200).json({ status: "success", data: blogData });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   addBlog,
   updateView,
   getBlogs,
   searchBlog,
   getAllBlogs,
+  getSingleBlog
 };

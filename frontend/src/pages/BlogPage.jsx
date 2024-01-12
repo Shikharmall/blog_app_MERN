@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getBlogPage } from "../Api/BlogAPI";
+import { getSingleBlog } from "../Api/BlogAPI";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 
@@ -8,9 +8,9 @@ function BlogPage() {
 
   const getBlogPageFunc = (id) => {
     try {
-      getBlogPage(id).then((res) => {
+      getSingleBlog(id).then((res) => {
         if (res.status === 200) {
-          setBlogPage(res?.data);
+          setBlogPage(res?.data?.data);
           //setData(res.data);
           //setLoader(false);
         } else {
@@ -28,6 +28,19 @@ function BlogPage() {
     }
   }, [id]);
   console.log(blogPage);
+
+  function formatDateTime(timestamp) {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      //hour: "numeric",
+      //minute: "numeric",
+      //second: "numeric",
+    };
+    return new Date(timestamp).toLocaleDateString(undefined, options);
+  }
+
   return (
     <>
       <Header />
@@ -35,9 +48,11 @@ function BlogPage() {
       <main>
         <article>
           <header class="mx-auto max-w-screen-xl pt-28 text-center">
-            <p class="text-gray-500">Published April 4, 2022</p>
+            <p class="text-gray-500">
+              Published {formatDateTime(blogPage?.createdAt)}
+            </p>
             <h1 class="mt-2 text-3xl font-bold text-gray-900 sm:text-5xl">
-              7 rules of effective marketing
+              {blogPage?.title}
             </h1>
             <p class="mt-6 text-lg text-gray-700">
               You're doing marketing the wrong way
