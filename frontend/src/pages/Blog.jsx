@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import { getAllBlogs, getBlogs } from "../Api/BlogAPI";
 import Header from "../components/Header";
+import loaderimage from "../image/loader.gif";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(6);
+  const [loader, setLoader] = useState(false);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -30,11 +32,12 @@ const Blog = () => {
 
   useEffect(() => {
     const fetchPosts11 = async () => {
+      setLoader(true);
       try {
         getBlogs(page, limit, sortBy, sortOrder, filterdata).then((res) => {
           if (res.status === 200) {
-            console.log(res);
             setPosts(res?.data?.data);
+            setLoader(false);
           } else {
             console.log(res);
           }
@@ -82,7 +85,8 @@ const Blog = () => {
                 Our Recent News
               </h2>
               <p className="text-base text-body-color dark:text-dark-6">
-              Discover captivating stories and insightful perspectives in our latest posts. Embark on a journey of exploration with us!
+                Discover captivating stories and insightful perspectives in our
+                latest posts. Embark on a journey of exploration with us!
               </p>
             </div>
           </div>
@@ -167,27 +171,35 @@ const Blog = () => {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
-          {posts && posts.length > 0 ? (
-            <>
-              {posts.map((item, index) => (
-                <article
-                  className="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
-                  key={index}
-                >
-                  <BlogCard item={item} />
-                </article>
-              ))}
-            </>
-          ) : null}
-        </div>
-        {posts && posts.length > 0 ? null : (
-          <div className="bg-white flex justify-center w-full">
-            <h1 className="p-3">No Blog Found..</h1>
+        {loader ? (
+          <div className="w-full h-full">
+            <div className="flex justify-center p-30  pt-10 pb-10 bg-white dark:bg-gray-800">
+              <img src={loaderimage} alt="loader" className="w-20 h-20" />
+            </div>
           </div>
-        )}
+        ) : (
+          <>
+            <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
+              {posts && posts.length > 0 ? (
+                <>
+                  {posts.map((item, index) => (
+                    <article
+                      className="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
+                      key={index}
+                    >
+                      <BlogCard item={item} />
+                    </article>
+                  ))}
+                </>
+              ) : null}
+            </div>
+            {posts && posts.length > 0 ? null : (
+              <div className="bg-white flex justify-center w-full">
+                <h1 className="p-3">No Blog Found..</h1>
+              </div>
+            )}
 
-        {/*<div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
+            {/*<div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
           {posts.length > 0 ? (
             <a className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
               {currentPage} of {Math.ceil(posts.length / postsPerPage)}
@@ -269,32 +281,34 @@ const Blog = () => {
           </nav>
         </div>*/}
 
-        <div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
-          <button
-            className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page <= 1}
-          >
-            Previous
-          </button>
-          {totalBlogs !== 0 ? (
-            <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
-              {page}
-            </a>
-          ) : (
-            <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
-              0
-            </a>
-          )}
+            <div className="flex flex-row justify-center p-2 bg-white dark:bg-gray-800 rounded-bl-lg rounded-br-lg">
+              <button
+                className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page <= 1}
+              >
+                Previous
+              </button>
+              {totalBlogs !== 0 ? (
+                <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
+                  {page}
+                </a>
+              ) : (
+                <a className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white">
+                  0
+                </a>
+              )}
 
-          <button
-            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"
-            disabled={page >= Math.ceil(totalBlogs / limit)}
-            onClick={() => handlePageChange(page + 1)}
-          >
-            Next
-          </button>
-        </div>
+              <button
+                className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover-bg-gray-100 hover-text-gray-700 dark-bg-gray-800 dark-border-gray-700 dark-text-gray-400 dark-hover-bg-gray-700 dark-hover-text-white cursor-pointer"
+                disabled={page >= Math.ceil(totalBlogs / limit)}
+                onClick={() => handlePageChange(page + 1)}
+              >
+                Next
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );
