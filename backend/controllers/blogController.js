@@ -123,10 +123,10 @@ const getBlogs = async (req, res) => {
 
 const updateView = async (req, res) => {
   try {
-    const { blog_id } = req.body;
-    const Blog = await Blog.findById({ _id: blog_id });
+    const { blog_id } = req.query;
+    const blog = await Blog.findById({ _id: blog_id });
 
-    let views = Blog.view;
+    let views = blog.view;
     views = views + 1;
 
     const viewUpdate = await Blog.findByIdAndUpdate(
