@@ -6,9 +6,10 @@ const BlogCard = ({ item }) => {
     <>
       <Link to={`/blog/page/${item._id}`}>
         <img
-          src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBhcnRuZXJzaGlwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+          /*src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBhcnRuZXJzaGlwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"*/
+          src={item.image}
           class="h-56 w-full object-cover"
-          alt=""
+          alt="img-blog"
         />
         <div class="flex-auto px-6 py-5">
           {/*<span class="mb-2 flex items-center text-sm font-semibold">

@@ -21,7 +21,7 @@ const Blog = () => {
     { value: "Fashion", label: "Fashion" },
     { value: "Lifestyle", label: "Lifestyle" },
     { value: "Parenting", label: "Parenting" },
-    { value: "Fitness1", label: "Fitness1" },
+    { value: "Fitness", label: "Fitness" },
   ];
 
   const handlePageChange = (newPage) => {
