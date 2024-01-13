@@ -1,20 +1,10 @@
 import axios from "axios";
 import { API_URL_BASE } from "../utils/apiURL";
 
-export const getBlogPage = async () => {
-  try {
-    let result = await axios(`https://jsonplaceholder.typicode.com/posts`, {
-      method: "GET",
-    });
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
 
 export const getAllBlogs = async () => {
   try {
-    let result = await axios(`http://localhost:5174/getAllBlogs`, {
+    let result = await axios(`${API_URL_BASE}/getAllBlogs`, {
       method: "GET",
     });
     return result;
@@ -26,7 +16,7 @@ export const getAllBlogs = async () => {
 export const getSingleBlog = async (blog_id) => {
   try {
     let result = await axios(
-      `http://localhost:5174/getSingleBlog/?blog_id=${blog_id}`,
+      `${API_URL_BASE}/getSingleBlog/?blog_id=${blog_id}`,
       {
         method: "GET",
       }
@@ -40,7 +30,7 @@ export const getSingleBlog = async (blog_id) => {
 export const getBlogs = async (page, limit, sortBy, sortOrder, filterdata) => {
   try {
     let result = await axios(
-      `http://localhost:5174/getBlogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&filterdata=${filterdata}`,
+      `${API_URL_BASE}/getBlogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&filterdata=${filterdata}`,
       {
         method: "GET",
       }
@@ -54,7 +44,7 @@ export const getBlogs = async (page, limit, sortBy, sortOrder, filterdata) => {
 export const addPost = async (data) => {
   try {
     console.log(data);
-    let result = await axios(`http://localhost:5174/addBlog`, {
+    let result = await axios(`${API_URL_BASE}/addBlog`, {
       method: "POST",
       headers: {
         //"Content-Type": "application/json",
@@ -71,7 +61,7 @@ export const addPost = async (data) => {
 };
 export const updateViewAPI = async (data) => {
   try {
-    let result = await axios(`http://localhost:5174/updateView`, {
+    let result = await axios(`${API_URL_BASE}/updateView`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +80,7 @@ export const updateViewAPI = async (data) => {
 /*
 export const searchBlog = async (titleDescriptionFilter) => {
   try {
-    let result = await axios(`http://localhost:5174/searchBlog`, {
+    let result = await axios(`${API_URL_BASE}/searchBlog`, {
       method: "GET",
       params: {
         titleDescriptionFilter,
@@ -104,7 +94,7 @@ export const searchBlog = async (titleDescriptionFilter) => {
 
 export const topThreeBlogAPI = async () => {
   try {
-    let result = await axios(`http://localhost:5174/topThreeBlog`, {
+    let result = await axios(`${API_URL_BASE}/topThreeBlog`, {
       method: "GET",
     });
     return result;
@@ -115,7 +105,7 @@ export const topThreeBlogAPI = async () => {
 
 export const getBlogTagsAPI = async (blog_id) => {
   try {
-    let result = await axios(`http://localhost:5174/getTags?blog_id=${blog_id}`, {
+    let result = await axios(`${API_URL_BASE}/getTags?blog_id=${blog_id}`, {
       method: "GET",
     });
     return result;
