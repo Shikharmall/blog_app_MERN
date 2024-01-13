@@ -88,7 +88,9 @@ const Blog = () => {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-4">
+        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-3 sm:gap-6 sm:px-8 md:grid-cols-3">
+          {/*
+          <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-4">
           <div className="col-span-1 md:col-span-1">
             <div className="relative p-2">
               <div>
@@ -109,7 +111,7 @@ const Blog = () => {
                 </select>
               </div>
             </div>
-          </div>
+          </div>*/}
           <div className="col-span-1 md:col-span-1">
             <div className="relative p-2">
               <div>
