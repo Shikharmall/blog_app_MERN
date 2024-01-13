@@ -11,7 +11,7 @@ const Blog = () => {
   const [loader, setLoader] = useState(false);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const [sortBy, setSortBy] = useState("createdAt");
-  const [filterCategory, setFilterCategory] = useState("technology");
+  const [filterCategory, setFilterCategory] = useState("");
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterdata, setFilterdata] = useState("");
 
