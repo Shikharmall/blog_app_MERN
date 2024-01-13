@@ -17,10 +17,17 @@ const addBlog = async (req, res) => {
     });
   }
 
-  if (!tags || tags.length === 0) {
+  if (!tags || tags === '[]') {
     return res.status(400).json({
       status: "failed",
       error: "Tags are required",
+    });
+  }
+
+  if (!file) {
+    return res.status(400).json({
+      status: "failed",
+      error: "Image required",
     });
   }
 
