@@ -92,7 +92,7 @@ function BlogPage() {
             <article>
               <header className="mx-auto max-w-screen-xl pt-28 text-center">
                 <p className="text-gray-500">
-                  Published {formatDateTime(blogPage?.createdAt)}
+                  Published {formatDateTime(blogPage?.createdAt)} <span className="text-blue-500"> ({blogPage?.view} views) </span> 
                 </p>
                 <h1 className="mt-2 text-3xl font-bold text-gray-900 sm:text-5xl">
                   {blogPage?.title}
