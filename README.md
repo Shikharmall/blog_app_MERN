@@ -12,7 +12,7 @@
   
   2.set environment variables
   
-  3.nodemon index.js
+  3.npm run dev
 
 ## Components-
   1.All Blog(or post) Page(filters, sorting and pagination)
@@ -38,7 +38,7 @@
   
   2.set environment variables
   
-  3.npm run dev
+  3.nodemon index.js
 
 ## Components-
   1.All the api's related to frontend code.
