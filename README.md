@@ -12,7 +12,7 @@ Link - https://idea-usher-assignment.vercel.app/
 ## Run Code-
   1.npm install
   
-  2.set environment variables
+  2.set environment variables (VITE_ENV , VITE_URL )
   
   3.npm run dev
 
