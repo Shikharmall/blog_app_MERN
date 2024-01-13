@@ -12,6 +12,18 @@ const Blog = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterdata, setFilterdata] = useState("");
 
+  const options = [
+    { value: "Technology", label: "Technology" },
+    { value: "Health", label: "Health" },
+    { value: "Finance", label: "Finance" },
+    { value: "Travel", label: "Travel" },
+    { value: "Food", label: "Food" },
+    { value: "Fashion", label: "Fashion" },
+    { value: "Lifestyle", label: "Lifestyle" },
+    { value: "Parenting", label: "Parenting" },
+    { value: "Fitness1", label: "Fitness1" },
+  ];
+
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
@@ -87,14 +99,14 @@ const Blog = () => {
                   //onChange={(e) => applyFilters(e.target.value)}
                   className="block p-3 pr-8  text-sm text-gray-500 border border-gray-300 placeholder-gray-400 rounded-lg w-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 box-border"
                 >
-                  <option value="">Select Category</option>
-
-                  {/*years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))*/}
-                  {/* Add more options as needed */}
+                  <option value="" disabled>
+                    Select Category
+                  </option>
+                  {options.map((item, index) => (
+                    <option value={item.label} key={index}>
+                      {item.value}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
