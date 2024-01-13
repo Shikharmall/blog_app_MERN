@@ -69,17 +69,17 @@ export const addPost = async (data) => {
 
 /*--------updating blog views api ------*/
 
-export const updateViewAPI = async (data) => {
+export const updateViewAPI = async (blog_id) => {
   try {
-    let result = await axios(`${API_URL_BASE}/updateView`, {
+    let result = await axios(`${API_URL_BASE}/updateView?blog_id=${blog_id}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
+        //"Content-Type": "application/json",
         //"Content-Type": "multipart/form-data",
         // Authorization: `Bearer ${token}`,
       },
       //withCredentials: true,
-      data: data,
+      //data: data,
     });
     return result;
   } catch (error) {
@@ -100,15 +100,3 @@ export const topThreeBlogAPI = async () => {
   }
 };
 
-/*--------get blog tags api------*/
-
-export const getBlogTagsAPI = async (blog_id) => {
-  try {
-    let result = await axios(`${API_URL_BASE}/getTags?blog_id=${blog_id}`, {
-      method: "GET",
-    });
-    return result;
-  } catch (error) {
-    return error;
-  }
-};

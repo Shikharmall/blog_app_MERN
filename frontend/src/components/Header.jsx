@@ -7,7 +7,6 @@ export default function Header() {
   return (
     <header className="text-slate-700 relative flex max-w-screen-xl flex-col overflow-hidden px-4 py-4 md:mx-auto md:flex-row md:items-center">
       <a
-        href="#"
         className="flex cursor-pointer items-center whitespace-nowrap text-2xl font-black"
       >
         <span className="mr-2 text-4xl text-cyan-500">

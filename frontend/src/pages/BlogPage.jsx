@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { getBlogTagsAPI, getSingleBlog, topThreeBlogAPI } from "../Api/BlogAPI";
+import { getSingleBlog, topThreeBlogAPI, updateViewAPI } from "../Api/BlogAPI";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 import BlogCard from "../components/BlogCard";
 import loaderimage from "../image/loader.gif";
+import { API_URL_BASE } from "../utils/apiURL";
 
 function BlogPage() {
   const [blogPage, setBlogPage] = useState("");
   const [loader, setLoader] = useState(false);
   const [topThreeBlog, setTopThreeBlog] = useState("");
-  const [blogTags, setBlogTags] = useState("");
   const [arr1, setArr1] = useState([]);
 
-  const [formData, setFormData] = useState({
-    blog_id: "",
-  });
+  const updateViewFunc = (blog_id) => {
+    try {
+      updateViewAPI(blog_id).then((res) => {
+        if (res.status === 200) {
+          //console.log("View Updated!");
+        } else {
+          console.log(res);
+        }
+      });
+    } catch (error) {}
+  };
 
   const getBlogPageFunc = (id) => {
     setLoader(true);
@@ -22,8 +30,8 @@ function BlogPage() {
       getSingleBlog(id).then((res) => {
         if (res.status === 200) {
           setBlogPage(res?.data?.data);
+          updateViewFunc(res?.data?.data?._id);
           setArr1(JSON.parse(res?.data?.data?.tags_id?.tags));
-          //setData(res.data);
           setLoader(false);
         } else {
           console.log("Data Fetching Failed!");
@@ -44,46 +52,14 @@ function BlogPage() {
     } catch (error) {}
   };
 
-  const getBlogTagsFunc = () => {
-    try {
-      getBlogTagsAPI(id).then((res) => {
-        if (res.status === 200) {
-          setBlogTags(res?.data?.data[0]?.tags);
-        } else {
-          console.log("Data Fetching Failed!");
-        }
-      });
-    } catch (error) {}
-  };
-
   const { id } = useParams();
-
-  /*const updateViewFunc = (id) => {
-    console.log(id);
-    setFormData({
-      blog_id: id,
-    });
-    try {
-      updateViewFunc(formData).then((res) => {
-        if (res.status === 200) {
-          //setTopThreeBlog(res?.data?.data);
-          console.log("View Updated!");
-        } else {
-          console.log("Failed!");
-        }
-      });
-    } catch (error) {}
-  };*/
 
   useEffect(() => {
     if (id) {
       getBlogPageFunc(id);
-      getBlogTagsFunc(id);
-      //updateViewFunc(id);
     }
   }, [id]);
 
-  //console.log(formData);
 
   useEffect(() => {
     topThreeBlogFunc();
@@ -100,8 +76,6 @@ function BlogPage() {
     };
     return new Date(timestamp).toLocaleDateString(undefined, options);
   }
-
-  console.log(blogTags);
   return (
     <>
       <Header />

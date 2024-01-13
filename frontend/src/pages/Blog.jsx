@@ -50,8 +50,6 @@ const Blog = () => {
     fetchPosts11();
   }, [page, sortBy, sortOrder, filterdata]);
 
-  console.log(posts);
-
   const getAllBlogsFunc = () => {
     try {
       getAllBlogs().then((res) => {

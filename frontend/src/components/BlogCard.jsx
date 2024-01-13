@@ -8,7 +8,6 @@ const BlogCard = ({ item }) => {
     setArr1(JSON.parse(item?.tags_id?.tags));
   }, [item]);
 
-  console.log(arr1);
   return (
     <>
       <Link to={`/blog/page/${item._id}`}>
