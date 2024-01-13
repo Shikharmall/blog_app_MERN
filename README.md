@@ -1,5 +1,7 @@
 # Frontend
 
+Link - https://idea-usher-assignment.vercel.app/
+
 ## Technologices Used -
    1.React JS
    
