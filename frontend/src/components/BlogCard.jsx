@@ -1,21 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const BlogCard = ({ item }) => {
+  const [arr1, setArr1] = useState([]);
+
+  useEffect(() => {
+    setArr1(JSON.parse(item?.tags_id?.tags));
+  }, [item]);
+
+  console.log(arr1);
   return (
     <>
       <Link to={`/blog/page/${item._id}`}>
         <img
           /*src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBhcnRuZXJzaGlwfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"*/
           src={item.image}
-          class="h-56 w-full object-cover"
+          className="h-56 w-full object-cover"
           alt="img-blog"
         />
-        <div class="flex-auto px-6 py-5">
-          {/*<span class="mb-2 flex items-center text-sm font-semibold">
+        <div className="flex-auto px-6 py-5">
+          {/*<span className="mb-2 flex items-center text-sm font-semibold">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="mr-2 h-4 w-4"
+              className="mr-2 h-4 w-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -46,15 +53,15 @@ const BlogCard = ({ item }) => {
               />
             </svg>
 
-            <p class="text-base font-light m-2">Abhay Kumar</p>
+            <p className="text-base font-light m-2">Abhay Kumar</p>
           </div>*/}
           <div
             className="flex flex-wrap justify-center gap-2"
             aria-label="Tags"
           >
-            {item?.tags_id?.tags && item?.tags_id?.tags?.length > 0 ? (
+            {arr1 && arr1?.length > 0 ? (
               <>
-                {item?.tags_id?.tags?.map((item, index) => (
+                {arr1?.map((item, index) => (
                   <p
                     className="rounded-lg bg-gray-100 px-2 py-1 text-sm font-medium text-gray-600 hover:bg-gray-200"
                     key={index}
@@ -65,13 +72,13 @@ const BlogCard = ({ item }) => {
               </>
             ) : null}
           </div>
-          <h3 class="mt-4 mb-3 text-xl font-semibold xl:text-2xl">
+          <h3 className="mt-4 mb-3 text-xl font-semibold xl:text-2xl">
             {item?.title?.substring(0, 10)}...
           </h3>
-          <p class="mb-4 text-base font-light">
+          <p className="mb-4 text-base font-light">
             {item?.description?.substring(0, 50)}...
           </p>
-          <span class="inline-block cursor-pointer select-none rounded-full border border-gray-800 bg-gray-800 px-2 py-1 text-center align-middle text-sm font-semibold leading-normal text-white no-underline shadow-sm">
+          <span className="inline-block cursor-pointer select-none rounded-full border border-gray-800 bg-gray-800 px-2 py-1 text-center align-middle text-sm font-semibold leading-normal text-white no-underline shadow-sm">
             Read Now
           </span>
         </div>

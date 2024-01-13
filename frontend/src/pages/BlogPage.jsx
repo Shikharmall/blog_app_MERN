@@ -155,12 +155,12 @@ function BlogPage() {
           Top Viewed Post
         </h2>
 
-        <div class="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
+        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
           {topThreeBlog && topThreeBlog.length > 0 ? (
             <>
               {topThreeBlog.map((item, index) => (
                 <article
-                  class="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
+                  className="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
                   key={index}
                 >
                   <BlogCard item={item} />

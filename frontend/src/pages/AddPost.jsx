@@ -77,6 +77,8 @@ export default function AddPost() {
     });
   };
 
+  console.log(formData);
+
   async function submitHandler(e) {
     e.preventDefault();
 
@@ -84,7 +86,9 @@ export default function AddPost() {
 
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("tags", formData.tags);
+
+   // var arrayString = JSON.stringify(formData.tags);
+    formDataToSend.append("tags", JSON.stringify(formData.tags));
 
     if (previewURL) {
       formDataToSend.append(`image`, image);
