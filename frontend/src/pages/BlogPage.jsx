@@ -8,6 +8,7 @@ function BlogPage() {
   const [blogPage, setBlogPage] = useState("");
   const [topThreeBlog, setTopThreeBlog] = useState("");
   const [blogTags, setBlogTags] = useState("");
+  const [arr1, setArr1] = useState([]);
 
   const [formData, setFormData] = useState({
     blog_id: "",
@@ -18,6 +19,7 @@ function BlogPage() {
       getSingleBlog(id).then((res) => {
         if (res.status === 200) {
           setBlogPage(res?.data?.data);
+          setArr1(JSON.parse(res?.data?.data?.tags_id?.tags));
           //setData(res.data);
           //setLoader(false);
         } else {
@@ -117,10 +119,13 @@ function BlogPage() {
               className="mt-6 flex flex-wrap justify-center gap-2"
               aria-label="Tags"
             >
-              {blogPage?.tags_id?.tags && blogPage?.tags_id?.tags?.length > 0 ? (
+              {arr1 && arr1?.length > 0 ? (
                 <>
-                  {blogPage?.tags_id?.tags?.map((item, index) => (
-                    <button className="rounded-lg bg-gray-100 px-2 py-1 font-medium text-gray-600 hover:bg-gray-200" key={index}>
+                  {arr1?.map((item, index) => (
+                    <button
+                      className="rounded-lg bg-gray-100 px-2 py-1 font-medium text-gray-600 hover:bg-gray-200"
+                      key={index}
+                    >
                       {item}
                     </button>
                   ))}
