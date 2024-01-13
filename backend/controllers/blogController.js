@@ -1,77 +1,67 @@
 const Blog = require("../models/blogModel");
 const Tag = require("../models/tagModel");
+const { v4: uuidv4 } = require("uuid");
+const aws = require("aws-sdk");
+const s3 = new aws.S3();
 
 /*-----------add blog with multiple tags------------*/
 
 const addBlog = async (req, res) => {
+  const { title, description, tags } = req.body;
+  const file = req.file;
+
+  if (!title || !description) {
+    return res.status(400).json({
+      status: "failed",
+      error: "Title and description are required",
+    });
+  }
+
+  if (!tags || tags.length === 0) {
+    return res.status(400).json({
+      status: "failed",
+      error: "Tags are required",
+    });
+  }
+
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${uuidv4()}-${file.originalname}`,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+  };
+
   try {
-    const { title, description, tags } = req.body;
-
-    if (!title || !description) {
-      return res.status(400).json({
-        status: "failed",
-        error: "Title and description are required",
-      });
-    }
-
-    if (tags == []) {
-      return res.status(400).json({
-        status: "failed",
-        error: "Tags are required",
-      });
-    }
-
-    /*const blog = new Blog({
-      title: title,
-      description: description,
-      view: 0,
-      image: req.file.filename,
-    });
-    //image: req.file.filename,
-
-    const blogData = await blog.save();
-
-    if (blogData) {
-      //------adding array of tags-------- 
-
-      const tags = new Tag({
-        blog_id: blogData._id,
-        tags: req.body.tags,
+    const data = await s3.upload(params).promise();
+    if (data) {
+      const tagsData = new Tag({
+        tags: tags,
       });
 
-      const tagsData = await tags.save();
+      const tagsSavedData = await tagsData.save();
 
-      if (tagsData) {
-        return res.status(201).json({
-          status: "success",
-          data: blogData,
+      if (tagsSavedData) {
+        const blog = new Blog({
+          title: title,
+          description: description,
+          view: 0,
+          image: data.Location,
+          tags_id: tagsSavedData._id,
         });
-      }
-    }*/
 
-    const tagsData = new Tag({
-      //blog_id: blogData._id,
-      tags: tags,
-    });
-    const tagsSavedData = await tagsData.save();
-    if (tagsSavedData) {
-      const blog = new Blog({
-        title: req.body.title,
-        description: req.body.description,
-        view: 0,
-        image: req.file.filename,
-        tags_id: tagsSavedData._id,
-      });
-      const blogData = await blog.save();
-      if (blogData) {
-        return res.status(201).json({
-          status: "success",
-          data: blogData,
-        });
+        const blogData = await blog.save();
+
+        if (blogData) {
+          return res.status(201).json({
+            status: "success",
+            data: blogData,
+          });
+        }
       }
     }
   } catch (error) {
-    return res.status(500).json({ status: "failed", error: error.message });
+    console.error("Error uploading file to S3:", error);
+    res.status(500).json({ error: "Error uploading file to S3" });
   }
 };
 

@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const port = process.env.PORT || 5174;
 
+const awsConfig = require("./config/awsConfig");
+
 const mongoose = require("mongoose");
 
 if (process.env.DATABASE === "MONGODBATLAS") {
