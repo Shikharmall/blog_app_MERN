@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { addPost } from "../Api/BlogAPI";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddPost() {
   const [submitloader, setSubmitloader] = useState(false);
@@ -23,6 +25,17 @@ export default function AddPost() {
     { value: "Parenting", label: "Parenting" },
     { value: "Fitness", label: "Fitness" },
   ];
+
+  const showToast = (dataa) => {
+    toast.error(`${dataa}`, {
+      position: 'top-right',
+      autoClose: 3000, // milliseconds
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
 
   const animatedComponents = makeAnimated();
 
@@ -87,7 +100,7 @@ export default function AddPost() {
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
 
-   // var arrayString = JSON.stringify(formData.tags);
+    // var arrayString = JSON.stringify(formData.tags);
     formDataToSend.append("tags", JSON.stringify(formData.tags));
 
     if (previewURL) {
@@ -109,6 +122,7 @@ export default function AddPost() {
         });
       } else {
         setSubmitloader(false);
+        showToast(res?.response?.data?.error);
         console.log(res);
       }
     });
@@ -117,6 +131,7 @@ export default function AddPost() {
   return (
     <>
       <Header />
+      <ToastContainer />
       <div className="relative overflow-x-auto  sm:rounded-lg p-3" id="movetop">
         <div className="flex items-center justify-center">
           <div className="relative w-full max-w-2xl max-h-full ">
