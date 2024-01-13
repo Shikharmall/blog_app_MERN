@@ -38,7 +38,7 @@ Link - https://idea-usher-assignment.vercel.app/
 ## Run Code-
   1.npm install
   
-  2.set environment variables
+  2.set environment variables (DATABASE , DATABASEURL , AWS_ACCESS_KEY_ID  ,AWS_SECRET_ACCESS_KEY , AWS_BUCKET_NAME")
   
   3.nodemon index.js
 
