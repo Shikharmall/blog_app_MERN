@@ -255,7 +255,7 @@ export default function AddPost() {
 
                     {isCrop ? (
                       <p className="text-red-500 flex justify-center items-center">
-                        Please add horizontal image.
+                        Please add landscape image.
                       </p>
                     ) : null}
 
