@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_URL_BASE } from "../utils/apiURL";
 
+/*--------get all the blogs data api------*/
 
 export const getAllBlogs = async () => {
   try {
@@ -12,6 +13,8 @@ export const getAllBlogs = async () => {
     return error;
   }
 };
+
+/*--------get single blogs data api------*/
 
 export const getSingleBlog = async (blog_id) => {
   try {
@@ -27,6 +30,8 @@ export const getSingleBlog = async (blog_id) => {
   }
 };
 
+/*--------get all blogs data  by sorting ,filtering , pagination api------*/
+
 export const getBlogs = async (page, limit, sortBy, sortOrder, filterdata) => {
   try {
     let result = await axios(
@@ -40,6 +45,8 @@ export const getBlogs = async (page, limit, sortBy, sortOrder, filterdata) => {
     return error;
   }
 };
+
+/*--------adding post(blog) with image and tags api ------*/
 
 export const addPost = async (data) => {
   try {
@@ -59,6 +66,9 @@ export const addPost = async (data) => {
     return error;
   }
 };
+
+/*--------updating blog views api ------*/
+
 export const updateViewAPI = async (data) => {
   try {
     let result = await axios(`${API_URL_BASE}/updateView`, {
@@ -77,20 +87,7 @@ export const updateViewAPI = async (data) => {
   }
 };
 
-/*
-export const searchBlog = async (titleDescriptionFilter) => {
-  try {
-    let result = await axios(`${API_URL_BASE}/searchBlog`, {
-      method: "GET",
-      params: {
-        titleDescriptionFilter,
-      },
-    });
-    return result;
-  } catch (error) {
-    return error;
-  }
-};*/
+/*--------get top there blogs data api------*/
 
 export const topThreeBlogAPI = async () => {
   try {
@@ -102,6 +99,8 @@ export const topThreeBlogAPI = async () => {
     return error;
   }
 };
+
+/*--------get blog tags api------*/
 
 export const getBlogTagsAPI = async (blog_id) => {
   try {
