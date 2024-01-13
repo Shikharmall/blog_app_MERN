@@ -5,7 +5,7 @@ const Tag = require("../models/tagModel");
 
 const addBlog = async (req, res) => {
   try {
-    const { title, description, tags } = req.body;
+    const { title, description } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({
@@ -18,6 +18,7 @@ const addBlog = async (req, res) => {
       title: title,
       description: description,
       view: 0,
+      image: req.file.filename,
     });
     //image: req.file.filename,
 
@@ -164,7 +165,7 @@ const topThreeBlog = async (req, res) => {
 const getTags = async (req, res) => {
   try {
     const { blog_id } = req.query;
-    const getBlogTags = await Tag.find({blog_id:blog_id});
+    const getBlogTags = await Tag.find({ blog_id: blog_id });
 
     res.status(200).json({ status: "success", data: getBlogTags });
   } catch (error) {
@@ -180,5 +181,5 @@ module.exports = {
   getAllBlogs,
   getSingleBlog,
   topThreeBlog,
-  getTags
+  getTags,
 };

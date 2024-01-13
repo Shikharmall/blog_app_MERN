@@ -57,8 +57,8 @@ export const addPost = async (data) => {
     let result = await axios(`http://localhost:5174/addBlog`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        //"Content-Type": "multipart/form-data",
+        //"Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         // Authorization: `Bearer ${token}`,
       },
       //withCredentials: true,

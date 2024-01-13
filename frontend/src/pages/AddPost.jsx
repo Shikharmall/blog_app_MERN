@@ -7,6 +7,8 @@ import { addPost } from "../Api/BlogAPI";
 export default function AddPost() {
   const [submitloader, setSubmitloader] = useState(false);
   const [images, setImages] = useState(null);
+
+  const [image, setImage] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [isCrop, setIsCrop] = useState(false);
 
@@ -41,8 +43,10 @@ export default function AddPost() {
   const onChangeHandlerImage = (e) => {
     const selectedImages = Array.from(e.target.files);
     setImages(selectedImages);
+    setImage(e.target.files[0]);
 
     const file = e.target.files[0];
+    console.log(e.target.files[0]);
 
     if (file) {
       const reader = new FileReader();
@@ -79,18 +83,16 @@ export default function AddPost() {
     const formDataToSend = new FormData();
 
     formDataToSend.append("title", formData.title);
-    //formDataToSend.append('description', formData.description);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("tags", formData.tags);
 
-    //if (previewURL) {
-    //  images.forEach((image, index) => {
-    //    //formDataToSend.append(`notice_images-${index}`, image);
-    //    formDataToSend.append(`notice_images`, image);
-    //  });
-    //}
+    if (previewURL) {
+      formDataToSend.append(`image`, image);
+    }
 
     setSubmitloader(true);
 
-    addPost(formData).then((res) => {
+    addPost(formDataToSend).then((res) => {
       if (res.status === 201) {
         setSubmitloader(false);
         setPreviewURL(null);
@@ -191,6 +193,7 @@ export default function AddPost() {
                       onClick={() => {
                         //setSelectedFile(null);
                         setPreviewURL(null);
+                        setImage(null);
                       }}
                     >
                       <svg
