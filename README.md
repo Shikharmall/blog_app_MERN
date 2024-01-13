@@ -5,6 +5,11 @@ Technologices Used -
    2.Vite
    3.Tailwind CSS
 
+Run Code-
+  1.npm install
+  2.set environment variables
+  3.nodemon index.js
+
 --Backend--
 
 Technologices Used -
@@ -12,3 +17,8 @@ Technologices Used -
    2.Express JS
    3.MongoDB Atlas
    4.AWS S3
+   
+Run Code-
+  1.npm install
+  2.set environment variables
+  3.npm run dev
