@@ -59,14 +59,14 @@ export default function Header() {
               pathname === "/" ? "font-bold md:mr-12" : "md:mr-12"
             }`}
           >
-            <Link to="/">All Posts </Link>
+            <Link to="/">All Blogs </Link>
           </li>
           <li
             className={`${
               pathname === "/addpost" ? "font-bold md:mr-12" : " md:mr-12"
             }`}
           >
-            <Link to="/addpost">Add Post</Link>
+            <Link to="/addpost">Add Blog</Link>
           </li>
           {/*<li className="md:mr-12">
             <a href="#">Support</a>
