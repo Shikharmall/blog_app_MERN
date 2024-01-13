@@ -25,7 +25,7 @@ const cors = require("cors");
 
 let allowedOrigins = [
   "http://localhost:5173",
-  "https://idea-usher-assignment.vercel.app/",
+  "https://idea-usher-assignment.vercel.app",
 ];
 
 app.use(
