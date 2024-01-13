@@ -145,7 +145,10 @@ const Blog = () => {
                 className="block p-3 pl-10 text-sm text-gray-500 border border-gray-300 placeholder-gray-400 rounded-lg w-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 box-border"
                 placeholder="Search"
                 value={filterdata}
-                onChange={(e) => setFilterdata(e.target.value)}
+                onChange={(e) => {
+                  setFilterdata(e.target.value);
+                  setPage(1);
+                }}
               />
             </div>
           </div>

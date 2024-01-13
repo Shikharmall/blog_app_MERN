@@ -17,6 +17,11 @@ const postSchema = new mongoose.Schema(
     view: {
       type: Number,
       required : true
+    },
+    tags_id:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:'Tag',
+      required : true
     }
   },
   {

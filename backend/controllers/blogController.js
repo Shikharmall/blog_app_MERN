@@ -5,7 +5,7 @@ const Tag = require("../models/tagModel");
 
 const addBlog = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, tags } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({
@@ -14,7 +14,14 @@ const addBlog = async (req, res) => {
       });
     }
 
-    const blog = new Blog({
+    if (tags == []) {
+      return res.status(400).json({
+        status: "failed",
+        error: "Tags are required",
+      });
+    }
+
+    /*const blog = new Blog({
       title: title,
       description: description,
       view: 0,
@@ -25,7 +32,7 @@ const addBlog = async (req, res) => {
     const blogData = await blog.save();
 
     if (blogData) {
-      /* ------adding array of tags-------- */
+      //------adding array of tags-------- 
 
       const tags = new Tag({
         blog_id: blogData._id,
@@ -35,6 +42,28 @@ const addBlog = async (req, res) => {
       const tagsData = await tags.save();
 
       if (tagsData) {
+        return res.status(201).json({
+          status: "success",
+          data: blogData,
+        });
+      }
+    }*/
+
+    const tagsData = new Tag({
+      //blog_id: blogData._id,
+      tags: tags,
+    });
+    const tagsSavedData = await tagsData.save();
+    if (tagsSavedData) {
+      const blog = new Blog({
+        title: req.body.title,
+        description: req.body.description,
+        view: 0,
+        image: req.file.filename,
+        tags_id: tagsSavedData._id,
+      });
+      const blogData = await blog.save();
+      if (blogData) {
         return res.status(201).json({
           status: "success",
           data: blogData,
@@ -84,7 +113,8 @@ const getBlogs = async (req, res) => {
     })
       .sort(sort)
       .skip(skip)
-      .limit(parseInt(limit, 10));
+      .limit(parseInt(limit, 10))
+      .populate("tags_id");
 
     res.status(200).json({ status: "success", data: paginatedData });
   } catch (error) {
@@ -140,7 +170,7 @@ const getSingleBlog = async (req, res) => {
   try {
     const { blog_id } = req.query;
 
-    const blogData = await Blog.findById({ _id: blog_id });
+    const blogData = await Blog.findById({ _id: blog_id }).populate("tags_id");
 
     res.status(200).json({ status: "success", data: blogData });
   } catch (error) {
@@ -152,7 +182,10 @@ const getSingleBlog = async (req, res) => {
 
 const topThreeBlog = async (req, res) => {
   try {
-    const topThreeViewedPosts = await Blog.find().sort({ view: -1 }).limit(3);
+    const topThreeViewedPosts = await Blog.find()
+      .sort({ view: -1 })
+      .populate("tags_id")
+      .limit(3);
 
     res.status(200).json({ status: "success", data: topThreeViewedPosts });
   } catch (error) {

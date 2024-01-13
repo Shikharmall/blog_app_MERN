@@ -28,7 +28,7 @@ const BlogCard = ({ item }) => {
             </svg>
             Branding
           </span>*/}
-          <div className="flex">
+          {/*<div className="flex">
             <svg
               fill="#000000"
               xmlns="http://www.w3.org/2000/svg"
@@ -46,6 +46,23 @@ const BlogCard = ({ item }) => {
             </svg>
 
             <p class="text-base font-light m-2">Abhay Kumar</p>
+          </div>*/}
+          <div
+            className="flex flex-wrap justify-center gap-2"
+            aria-label="Tags"
+          >
+            {item?.tags_id?.tags && item?.tags_id?.tags?.length > 0 ? (
+              <>
+                {item?.tags_id?.tags?.map((item, index) => (
+                  <p
+                    className="rounded-lg bg-gray-100 px-2 py-1 text-sm font-medium text-gray-600 hover:bg-gray-200"
+                    key={index}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </>
+            ) : null}
           </div>
           <h3 class="mt-4 mb-3 text-xl font-semibold xl:text-2xl">
             {item?.title?.substring(0, 10)}...

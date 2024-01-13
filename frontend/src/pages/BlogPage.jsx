@@ -117,9 +117,9 @@ function BlogPage() {
               className="mt-6 flex flex-wrap justify-center gap-2"
               aria-label="Tags"
             >
-              {blogTags && blogTags.length > 0 ? (
+              {blogPage?.tags_id?.tags && blogPage?.tags_id?.tags?.length > 0 ? (
                 <>
-                  {blogTags.map((item, index) => (
+                  {blogPage?.tags_id?.tags?.map((item, index) => (
                     <button className="rounded-lg bg-gray-100 px-2 py-1 font-medium text-gray-600 hover:bg-gray-200" key={index}>
                       {item}
                     </button>
