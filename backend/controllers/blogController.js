@@ -17,7 +17,7 @@ const addBlog = async (req, res) => {
     });
   }
 
-  if (!tags || tags === '[]') {
+  if (!tags || tags === "[]") {
     return res.status(400).json({
       status: "failed",
       error: "Tags are required",
@@ -94,6 +94,7 @@ const getBlogs = async (req, res) => {
       sortBy = "createdAt",
       sortOrder = "desc",
       filterdata,
+      filterCategory,
     } = req.query;
 
     const sort = {};
@@ -104,16 +105,24 @@ const getBlogs = async (req, res) => {
 
     const paginatedData = await Blog.find({
       $or: [
-        { title: { $regex: filterdata, $options: "i" } }, // Case-insensitive search for name
-        { description: { $regex: filterdata, $options: "i" } }, // Case-insensitive search for description
+        { title: { $regex: filterdata, $options: "i" } }, 
+        { description: { $regex: filterdata, $options: "i" } }, 
       ],
     })
       .sort(sort)
       .skip(skip)
       .limit(parseInt(limit, 10))
-      .populate("tags_id");
+      .populate({
+        path: "tags_id",
+        select: "tags", // Select only the 'tags' property from the Tag model
+        match: { tags: { $regex: filterCategory, $options: "i" } },
+      });
 
-    res.status(200).json({ status: "success", data: paginatedData });
+    const filteredData = paginatedData.filter(
+      (item) => item.tags_id && item.tags_id.tags && item.tags_id.tags.length > 0
+    );
+
+    res.status(200).json({ status: "success", data: filteredData });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

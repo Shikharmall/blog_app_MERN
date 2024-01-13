@@ -11,6 +11,7 @@ const Blog = () => {
   const [loader, setLoader] = useState(false);
   const [totalBlogs, setTotalBlogs] = useState(0);
   const [sortBy, setSortBy] = useState("createdAt");
+  const [filterCategory, setFilterCategory] = useState("technology");
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterdata, setFilterdata] = useState("");
 
@@ -34,7 +35,14 @@ const Blog = () => {
     const fetchPosts11 = async () => {
       setLoader(true);
       try {
-        getBlogs(page, limit, sortBy, sortOrder, filterdata).then((res) => {
+        getBlogs(
+          page,
+          limit,
+          sortBy,
+          sortOrder,
+          filterdata,
+          filterCategory
+        ).then((res) => {
           if (res.status === 200) {
             setPosts(res?.data?.data);
             setLoader(false);
@@ -48,7 +56,7 @@ const Blog = () => {
     };
 
     fetchPosts11();
-  }, [page, sortBy, sortOrder, filterdata]);
+  }, [page, sortBy, sortOrder, filterdata, filterCategory]);
 
   const getAllBlogsFunc = () => {
     try {
@@ -90,21 +98,19 @@ const Blog = () => {
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-3 sm:gap-6 sm:px-8 md:grid-cols-3">
-          {/*
-          <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-4">
+        {/*<div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-3 sm:gap-6 sm:px-8 md:grid-cols-3">*/}
+
+        <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-4">
           <div className="col-span-1 md:col-span-1">
             <div className="relative p-2">
               <div>
                 <label className="sr-only">Select Category:</label>
                 <select
-                  //value={endYearFilter}
-                  //onChange={(e) => applyFilters(e.target.value)}
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
                   className="block p-3 pr-8  text-sm text-gray-500 border border-gray-300 placeholder-gray-400 rounded-lg w-full bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 box-border"
                 >
-                  <option value="" disabled>
-                    Select Category
-                  </option>
+                  <option value="">All Category</option>
                   {options.map((item, index) => (
                     <option value={item.label} key={index}>
                       {item.value}
@@ -113,7 +119,7 @@ const Blog = () => {
                 </select>
               </div>
             </div>
-          </div>*/}
+          </div>
           <div className="col-span-1 md:col-span-1">
             <div className="relative p-2">
               <div>
@@ -180,14 +186,16 @@ const Blog = () => {
             <div className="mx-auto grid max-w-screen-lg justify-center px-4 sm:grid-cols-2 sm:gap-6 sm:px-8 md:grid-cols-3">
               {posts && posts.length > 0 ? (
                 <>
-                  {posts.map((item, index) => (
-                    <article
-                      className="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
-                      key={index}
-                    >
-                      <BlogCard item={item} />
-                    </article>
-                  ))}
+                  {posts.map((item, index) =>
+                    item && item.tags_id  ? (
+                      <article
+                        className="mx-auto my-4 flex flex-col overflow-hidden rounded-lg border border-gray-300 bg-white text-gray-900 transition hover:translate-y-2 hover:shadow-lg"
+                        key={index}
+                      >
+                        <BlogCard item={item} />
+                      </article>
+                    ) : null
+                  )}
                 </>
               ) : null}
             </div>

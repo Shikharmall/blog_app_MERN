@@ -32,10 +32,10 @@ export const getSingleBlog = async (blog_id) => {
 
 /*--------get all blogs data  by sorting ,filtering , pagination api------*/
 
-export const getBlogs = async (page, limit, sortBy, sortOrder, filterdata) => {
+export const getBlogs = async (page, limit, sortBy, sortOrder, filterdata,filterCategory) => {
   try {
     let result = await axios(
-      `${API_URL_BASE}/getBlogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&filterdata=${filterdata}`,
+      `${API_URL_BASE}/getBlogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&filterdata=${filterdata}&filterCategory=${filterCategory}`,
       {
         method: "GET",
       }
@@ -99,4 +99,3 @@ export const topThreeBlogAPI = async () => {
     return error;
   }
 };
-
