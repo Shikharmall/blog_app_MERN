@@ -82,8 +82,7 @@ const Blog = () => {
                 Our Recent News
               </h2>
               <p className="text-base text-body-color dark:text-dark-6">
-                There are many variations of passages of Lorem Ipsum available
-                but the majority have suffered alteration in some form.
+              Discover captivating stories and insightful perspectives in our latest posts. Embark on a journey of exploration with us!
               </p>
             </div>
           </div>
